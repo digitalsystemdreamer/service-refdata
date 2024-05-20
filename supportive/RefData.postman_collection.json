@@ -1,0 +1,177 @@
+{
+	"info": {
+		"_postman_id": "63c2bcd8-d4b8-41cd-b0b1-af6e172c1ad4",
+		"name": "RefData",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3709553"
+	},
+	"item": [
+		{
+			"name": "GetAllFacilities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/facilities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"facilities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new Facility",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"Yoga\",\r\n    \"description\" : \"Basic Yoga Facility\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/facilities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"facilities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Memberships",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/memberships",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"memberships"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new Membership",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Gold\",\r\n    \"description\": \"Gold Membership\",\r\n    \"facilities\": [\r\n        {\r\n            \"id\" : 1\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/memberships",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"memberships"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Individual Facility",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"Yoga\",\r\n    \"description\" : \"Basic Yoga Facility\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/facilities/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"facilities",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Individual Facility",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"Yoga\",\r\n    \"description\" : \"Basic Morning Yoga Facility\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/facilities/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"facilities",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/vi")
+@RequestMapping("/api/v1")
 @Slf4j
 public class MembershipController {
     @Autowired
