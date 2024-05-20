@@ -5,6 +5,9 @@ import com.digitalsystemdreamer.servicerefdata.model.Facility;
 import com.digitalsystemdreamer.servicerefdata.service.FacilityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
@@ -61,4 +64,10 @@ public class FacilityController {
                 linkTo(methodOn(FacilityController.class).getFacility(id)).withSelfRel(),
                 linkTo(methodOn(FacilityController.class).getAllFacilities()).withRel("facilities"));
     }
+
+    @QueryMapping
+    public Facility facilityById(@Argument String id) {
+        return facilityService.getFacility(Integer.valueOf(id));
+    }
+
 }

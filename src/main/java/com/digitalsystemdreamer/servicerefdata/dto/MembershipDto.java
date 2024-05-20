@@ -1,4 +1,4 @@
-package com.digitalsystemdreamer.servicerefdata.request;
+package com.digitalsystemdreamer.servicerefdata.dto;
 
 import lombok.Data;
 

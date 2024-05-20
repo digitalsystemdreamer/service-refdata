@@ -1,0 +1,9 @@
+type Query {
+    facilityById(id: ID): Facility
+}
+
+type Facility {
+    id: ID
+    name: String
+    description: String
+}
