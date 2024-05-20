@@ -1,6 +1,10 @@
 package com.digitalsystemdreamer.servicerefdata.model;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import lombok.Data;
 
 @Entity
@@ -11,6 +15,7 @@ public class MembershipFacilityMap {
 
     @ManyToOne
     @MapsId("membershipId")
+    @JsonIgnore
     private Membership membership;
 
     @ManyToOne
