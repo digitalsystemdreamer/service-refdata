@@ -23,5 +23,5 @@ public class MembershipFacilityMap {
     @ManyToOne
     @MapsId("facilityId")
     private Facility facility;
-    private Integer hours;
+    private Integer duration;
 }

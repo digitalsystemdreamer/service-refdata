@@ -33,11 +33,11 @@ public class MembershipService {
         if (!CollectionUtils.isEmpty(membership.getMembershipFacilities())) {
             List<MembershipFacilityMap> membershipFacilities = membership.getMembershipFacilities();
             List<MembershipFacilityMap> collect = membershipFacilities.stream().map(membershipFacilityMap -> {
-                Facility facility = facilityRepo.findById(membershipFacilityMap.getFacility().getId()).get();
+                Facility facility = facilityRepo.findById(membershipFacilityMap.getFacility().getFacilityId()).get();
                 MembershipFacilityMap map = new MembershipFacilityMap();
                 map.setMembership(saved);
                 map.setFacility(facility);
-                map.setHours(membershipFacilityMap.getHours());
+                map.setDuration(membershipFacilityMap.getDuration());
                 map.setId(new MembershipFacilityMapId());
                 membershipFacilityMapRepo.save(map);
                 return map;

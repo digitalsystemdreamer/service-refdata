@@ -1,6 +1,7 @@
 package com.digitalsystemdreamer.servicerefdata.api.v1;
 
 import com.digitalsystemdreamer.servicerefdata.assembler.Assembler;
+import com.digitalsystemdreamer.servicerefdata.dto.FacilityDto;
 import com.digitalsystemdreamer.servicerefdata.model.Facility;
 import com.digitalsystemdreamer.servicerefdata.service.FacilityService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,19 +33,18 @@ public class FacilityController {
         List<Facility> all = facilityService.getAllFacilities();
         List<EntityModel<Facility>> allFacilities = all.stream()
                 .map(facility -> EntityModel.of(facility,
-                        linkTo(methodOn(FacilityController.class).getFacility(facility.getId())).withSelfRel(),
+                        linkTo(methodOn(FacilityController.class).getFacility(facility.getFacilityId())).withSelfRel(),
                         linkTo(methodOn(FacilityController.class).getAllFacilities()).withRel("facilities")))
                 .collect(Collectors.toList());
         return CollectionModel.of(allFacilities, linkTo(methodOn(FacilityController.class).getAllFacilities()).withSelfRel());
     }
 
     @PostMapping("/facilities")
-    public EntityModel<Facility> saveFacility(@RequestBody Facility facility) {
-        Facility facility1 = facilityService.saveFacility(facility);
-        log.info("Facility Created with ID: {}", facility1.getId());
-        return EntityModel.of(facility1,
-                linkTo(methodOn(FacilityController.class).getFacility(facility1.getId())).withSelfRel(),
-                linkTo(methodOn(FacilityController.class).getAllFacilities()).withRel("facilities"));
+    public EntityModel<FacilityDto> saveFacility(@RequestBody FacilityDto facilityDto) {
+//        Facility facility = assembler.toEntity(facilityDto);
+        Facility facility = facilityService.saveFacility(facilityDto);
+        log.info("Facility Created with ID: {}", facility.getFacilityId());
+        return assembler.toEntityModel(facility);
     }
 
     @PutMapping("/facilities/{id}")
@@ -52,7 +52,7 @@ public class FacilityController {
         facility = facilityService.updateFacility(id, facility);
         log.info("Facility Updated with ID: {}", id);
         return EntityModel.of(facility,
-                linkTo(methodOn(FacilityController.class).getFacility(facility.getId())).withSelfRel(),
+                linkTo(methodOn(FacilityController.class).getFacility(facility.getFacilityId())).withSelfRel(),
                 linkTo(methodOn(FacilityController.class).getAllFacilities()).withRel("facilities"));
     }
 
