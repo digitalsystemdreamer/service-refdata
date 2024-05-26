@@ -26,33 +26,15 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class Assembler {
     @Autowired
     private ModelMapper modelMapper;
-    public Membership toEntity(MembershipDto membershipDto) {
-        Membership membership = new Membership();
-        membership.setId(membershipDto.getId());
-        membership.setName(membershipDto.getName());
-        membership.setDescription(membershipDto.getDescription());
-        membership.setMembershipFacilities(membershipDto.getFacilities().stream().map(facilityDto -> {
-            Facility facility = modelMapper.map(facilityDto, Facility.class);
-            MembershipFacilityMap membershipFacilityMap = new MembershipFacilityMap();
-            membershipFacilityMap.setFacility(facility);
-            membershipFacilityMap.setDuration(facilityDto.getDuration());
-            return membershipFacilityMap;
-        }).collect(Collectors.toList()));
-        return membership;
-    }
-
     public EntityModel<MembershipDto> toEntityModel(Membership membership) {
-        MembershipDto membershipDto = new MembershipDto();
-        membershipDto.setId(membership.getId());
-        membershipDto.setName(membership.getName());
-        membershipDto.setDescription(membership.getDescription());
+        MembershipDto membershipDto = modelMapper.map(membership, MembershipDto.class);
         membershipDto.setFacilities(membership.getMembershipFacilities().stream().map(membershipFacilityMap -> {
             FacilityDto facilityDto = modelMapper.map(membershipFacilityMap.getFacility(), FacilityDto.class);
             facilityDto.setDuration(membershipFacilityMap.getDuration());
             return facilityDto;
         }).collect(Collectors.toList()));
         return EntityModel.of(membershipDto,
-                linkTo(methodOn(MembershipController.class).getMembership(membership.getId())).withSelfRel(),
+                linkTo(methodOn(MembershipController.class).getMembership(membership.getMembershipId())).withSelfRel(),
                 linkTo(methodOn(MembershipController.class).getAllMemberships()).withRel("memberships"));
     }
 

@@ -30,7 +30,7 @@ public class MembershipController {
     @PostMapping("/memberships")
     public EntityModel<MembershipDto> saveMembership(@RequestBody MembershipDto membershipDto) {
         Membership membership = membershipService.saveMembership(membershipDto);
-        log.info("Membership Created with ID: {}", membership.getId());
+        log.info("Membership Created with ID: {}", membership.getMembershipId());
         return assembler.toEntityModel(membership);
     }
 

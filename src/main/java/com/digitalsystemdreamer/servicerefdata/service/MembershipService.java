@@ -38,12 +38,11 @@ public class MembershipService {
                 membership.addFacility(facility, facilityDto.getDuration());
             });
         }
-        Membership saved = membershipRepo.save(membership);
-        return saved;
+        return membershipRepo.save(membership);
     }
 
     public Membership updateMembership(Membership membership) {
-        if (membershipRepo.existsById(membership.getId())) {
+        if (membershipRepo.existsById(membership.getMembershipId())) {
             membership = membershipRepo.save(membership);
         } else {
             throw new EntityNotFoundException();

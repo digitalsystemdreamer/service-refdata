@@ -30,6 +30,6 @@ public class MembershipFacilityMap {
     public MembershipFacilityMap(Membership membership, Facility facility) {
         this.membership = membership;
         this.facility = facility;
-        this.id = new MembershipFacilityMapId(membership.getId(), facility.getFacilityId());
+        this.id = new MembershipFacilityMapId(membership.getMembershipId(), facility.getFacilityId());
     }
 }
