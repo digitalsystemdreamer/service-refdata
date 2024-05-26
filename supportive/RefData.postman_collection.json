@@ -85,7 +85,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Silver1\",\r\n    \"description\": \"Silver Membership\",\r\n    \"facilities\": [\r\n        {\r\n            \"facilityId\" : 1,\r\n            \"duration\" : 5\r\n        }\r\n    ]\r\n}",
+					"raw": "{\r\n    \"name\": \"Silver1\",\r\n    \"description\": \"Silver Membership\",\r\n    \"validFrom\": \"2025-12-05\",\r\n    \"validTo\": \"2025-12-05\",\r\n    \"floorPackage\": {\"packageId\": 1},\r\n    \"points\": 300,\r\n    \"facilities\": [\r\n        {\r\n            \"facilityId\" : 1,\r\n            \"duration\" : 5\r\n        }\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
