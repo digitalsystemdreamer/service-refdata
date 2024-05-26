@@ -84,4 +84,9 @@ public class Assembler {
                 linkTo(methodOn(FacilityController.class).getAllFacilities()).withRel("facilities"));
     }
 
+    public CollectionModel<EntityModel<FacilityDto>> toEntityModelFacilityList(List<Facility> facilities) {
+        List<EntityModel<FacilityDto>> faEntityModels = facilities.stream().map(this::toEntityModel).toList();
+        return CollectionModel.of(faEntityModels, linkTo(methodOn(FacilityController.class).getAllFacilities()).withSelfRel());
+    }
+
 }

@@ -4,3 +4,7 @@ INSERT INTO billing (billing_id, name) VALUES (3, 'Weekly');
 INSERT INTO billing (billing_id, name) VALUES (4, 'Monthly');
 INSERT INTO billing (billing_id, name) VALUES (5, 'Half Yearly');
 INSERT INTO billing (billing_id, name) VALUES (6, 'Yearly');
+INSERT INTO package (package_id, package_name) VALUES (1, 'Monthly');
+INSERT INTO package (package_id, package_name) VALUES (2, 'Quarterly');
+INSERT INTO package (package_id, package_name) VALUES (3, 'Half Yearly');
+INSERT INTO package (package_id, package_name) VALUES (4, 'Annually');

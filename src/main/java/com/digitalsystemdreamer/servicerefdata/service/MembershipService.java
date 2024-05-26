@@ -3,11 +3,13 @@ package com.digitalsystemdreamer.servicerefdata.service;
 import com.digitalsystemdreamer.servicerefdata.dao.FacilityRepo;
 import com.digitalsystemdreamer.servicerefdata.dao.MembershipFacilityMapRepo;
 import com.digitalsystemdreamer.servicerefdata.dao.MembershipRepo;
+import com.digitalsystemdreamer.servicerefdata.dto.MembershipDto;
 import com.digitalsystemdreamer.servicerefdata.model.Facility;
 import com.digitalsystemdreamer.servicerefdata.model.Membership;
 import com.digitalsystemdreamer.servicerefdata.model.MembershipFacilityMap;
 import com.digitalsystemdreamer.servicerefdata.model.MembershipFacilityMapId;
 import jakarta.persistence.EntityNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -22,29 +24,24 @@ public class MembershipService {
     private FacilityRepo facilityRepo;
     @Autowired
     private MembershipFacilityMapRepo membershipFacilityMapRepo;
+    @Autowired
+    private ModelMapper modelMapper;
 
     public List<Membership> getAllMemberships() {
         return membershipRepo.findAll();
     }
 
-    public Membership saveMembership(Membership membership) {
-
-        Membership saved = membershipRepo.save(membership);
-        if (!CollectionUtils.isEmpty(membership.getMembershipFacilities())) {
-            List<MembershipFacilityMap> membershipFacilities = membership.getMembershipFacilities();
-            List<MembershipFacilityMap> collect = membershipFacilities.stream().map(membershipFacilityMap -> {
-                Facility facility = facilityRepo.findById(membershipFacilityMap.getFacility().getFacilityId()).get();
-                MembershipFacilityMap map = new MembershipFacilityMap();
-                map.setMembership(saved);
-                map.setFacility(facility);
-                map.setDuration(membershipFacilityMap.getDuration());
-                map.setId(new MembershipFacilityMapId());
-                membershipFacilityMapRepo.save(map);
-                return map;
-            }).toList();
-            membership.setMembershipFacilities(collect);
+    public Membership saveMembership(MembershipDto membershipDto) {
+        Membership membership = modelMapper.map(membershipDto, Membership.class);
+        membership.getMembershipFacilities().clear();
+        if (!CollectionUtils.isEmpty(membershipDto.getFacilities())) {
+            membershipDto.getFacilities().forEach(facilityDto -> {
+                Facility facility = facilityRepo.findById(facilityDto.getFacilityId()).orElseThrow(RuntimeException:: new);
+                membership.addFacility(facility, facilityDto.getDuration());
+            });
         }
-        return membership;
+        Membership saved = membershipRepo.save(membership);
+        return saved;
     }
 
     public Membership updateMembership(Membership membership) {

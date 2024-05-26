@@ -17,6 +17,11 @@ public class Membership {
     private int id;
     private String name;
     private String description;
-    @OneToMany(mappedBy = "membership")
+    @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MembershipFacilityMap> membershipFacilities = new ArrayList<>();
+    public void addFacility(Facility facility, Integer duration){
+        MembershipFacilityMap membershipFacilityMap = new MembershipFacilityMap(this, facility);
+        membershipFacilityMap.setDuration(duration);
+        membershipFacilities.add(membershipFacilityMap);
+    }
 }

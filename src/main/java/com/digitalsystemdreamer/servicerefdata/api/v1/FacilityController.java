@@ -29,19 +29,13 @@ public class FacilityController {
     private Assembler assembler;
 
     @GetMapping("/facilities")
-    public CollectionModel<EntityModel<Facility>> getAllFacilities() {
+    public CollectionModel<EntityModel<FacilityDto>> getAllFacilities() {
         List<Facility> all = facilityService.getAllFacilities();
-        List<EntityModel<Facility>> allFacilities = all.stream()
-                .map(facility -> EntityModel.of(facility,
-                        linkTo(methodOn(FacilityController.class).getFacility(facility.getFacilityId())).withSelfRel(),
-                        linkTo(methodOn(FacilityController.class).getAllFacilities()).withRel("facilities")))
-                .collect(Collectors.toList());
-        return CollectionModel.of(allFacilities, linkTo(methodOn(FacilityController.class).getAllFacilities()).withSelfRel());
+        return assembler.toEntityModelFacilityList(all);
     }
 
     @PostMapping("/facilities")
     public EntityModel<FacilityDto> saveFacility(@RequestBody FacilityDto facilityDto) {
-//        Facility facility = assembler.toEntity(facilityDto);
         Facility facility = facilityService.saveFacility(facilityDto);
         log.info("Facility Created with ID: {}", facility.getFacilityId());
         return assembler.toEntityModel(facility);
