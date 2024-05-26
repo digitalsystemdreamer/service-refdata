@@ -6,8 +6,6 @@ import com.digitalsystemdreamer.servicerefdata.dao.MembershipRepo;
 import com.digitalsystemdreamer.servicerefdata.dto.MembershipDto;
 import com.digitalsystemdreamer.servicerefdata.model.Facility;
 import com.digitalsystemdreamer.servicerefdata.model.Membership;
-import com.digitalsystemdreamer.servicerefdata.model.MembershipFacilityMap;
-import com.digitalsystemdreamer.servicerefdata.model.MembershipFacilityMapId;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

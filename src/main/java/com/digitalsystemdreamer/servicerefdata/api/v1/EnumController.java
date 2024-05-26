@@ -2,11 +2,8 @@ package com.digitalsystemdreamer.servicerefdata.api.v1;
 
 import com.digitalsystemdreamer.servicerefdata.assembler.Assembler;
 import com.digitalsystemdreamer.servicerefdata.dto.BillingDto;
-import com.digitalsystemdreamer.servicerefdata.dto.EnumType;
 import com.digitalsystemdreamer.servicerefdata.dto.PackageDto;
-import com.digitalsystemdreamer.servicerefdata.model.Facility;
 import com.digitalsystemdreamer.servicerefdata.service.EnumService;
-import com.digitalsystemdreamer.servicerefdata.service.FacilityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -17,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;

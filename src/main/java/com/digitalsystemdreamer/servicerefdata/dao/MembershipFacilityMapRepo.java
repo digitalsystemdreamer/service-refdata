@@ -1,6 +1,5 @@
 package com.digitalsystemdreamer.servicerefdata.dao;
 
-import com.digitalsystemdreamer.servicerefdata.model.Facility;
 import com.digitalsystemdreamer.servicerefdata.model.MembershipFacilityMap;
 import com.digitalsystemdreamer.servicerefdata.model.MembershipFacilityMapId;
 import org.springframework.data.jpa.repository.JpaRepository;

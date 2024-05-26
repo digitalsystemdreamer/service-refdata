@@ -5,17 +5,14 @@ import com.digitalsystemdreamer.servicerefdata.dao.FacilityRepo;
 import com.digitalsystemdreamer.servicerefdata.dto.FacilityDto;
 import com.digitalsystemdreamer.servicerefdata.model.Billing;
 import com.digitalsystemdreamer.servicerefdata.model.Facility;
-import com.digitalsystemdreamer.servicerefdata.model.FacilityBillingMap;
 import com.digitalsystemdreamer.servicerefdata.producer.FacilityProducer;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class FacilityService {

@@ -4,8 +4,6 @@ import com.digitalsystemdreamer.servicerefdata.dao.BillingRepo;
 import com.digitalsystemdreamer.servicerefdata.dao.PackageRepo;
 import com.digitalsystemdreamer.servicerefdata.dto.BillingDto;
 import com.digitalsystemdreamer.servicerefdata.dto.PackageDto;
-import com.digitalsystemdreamer.servicerefdata.model.Billing;
-import com.digitalsystemdreamer.servicerefdata.model.Facility;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
