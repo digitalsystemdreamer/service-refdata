@@ -40,21 +40,16 @@ public class FacilityController {
     }
 
     @PutMapping("/facilities/{id}")
-    public EntityModel<Facility> updateFacility(@PathVariable Integer id, @RequestBody Facility facility) {
-        facility = facilityService.updateFacility(id, facility);
+    public EntityModel<FacilityDto> updateFacility(@PathVariable Integer id, @RequestBody FacilityDto facilityDto) {
+        Facility facility = facilityService.updateFacility(id, facilityDto);
         log.info("Facility Updated with ID: {}", id);
-        return EntityModel.of(facility,
-                linkTo(methodOn(FacilityController.class).getFacility(facility.getFacilityId())).withSelfRel(),
-                linkTo(methodOn(FacilityController.class).getAllFacilities()).withRel("facilities"));
+        return assembler.toEntityModel(facility);
     }
 
     @GetMapping("/facilities/{id}")
-    public EntityModel<Facility> getFacility(@PathVariable Integer id) {
+    public EntityModel<FacilityDto> getFacility(@PathVariable Integer id) {
         Facility facility = facilityService.getFacility(id);
-
-        return EntityModel.of(facility,
-                linkTo(methodOn(FacilityController.class).getFacility(id)).withSelfRel(),
-                linkTo(methodOn(FacilityController.class).getAllFacilities()).withRel("facilities"));
+        return assembler.toEntityModel(facility);
     }
 
     @QueryMapping

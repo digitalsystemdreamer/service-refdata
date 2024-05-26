@@ -42,14 +42,21 @@ public class FacilityService {
         return saved;
     }
 
-    public Facility updateFacility(Integer id, Facility facility) {
+    public Facility updateFacility(Integer id, FacilityDto facilityDto) {
+        Facility saved = null;
         if (facilityRepo.existsById(id)) {
+            Facility facility = modelMapper.map(facilityDto, Facility.class);
             facility.setFacilityId(id);
-            facility = facilityRepo.save(facility);
+            Optional.of(facilityDto.getFacilityBillings()).ifPresent(billingDtos -> billingDtos.forEach(billingDto -> {
+                Billing billing = billingRepo.findById(billingDto.getBillingId()).orElseThrow(RuntimeException:: new);
+                facility.addBilling(billing, billingDto.getBillingRate());
+            }));
+            saved = facilityRepo.save(facility);
+            facilityProducer.sendMessage("{\"name\" : \""+saved.getName()+"\",\"description\" : \""+saved.getDescription()+"\"}");
         } else {
             throw new EntityNotFoundException();
         }
-        return facility;
+        return saved;
     }
 
     public Facility getFacility(Integer id) {
