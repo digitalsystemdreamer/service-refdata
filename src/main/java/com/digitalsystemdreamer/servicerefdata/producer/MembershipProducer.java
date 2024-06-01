@@ -1,6 +1,7 @@
 package com.digitalsystemdreamer.servicerefdata.producer;
 
 import com.digitalsystemdreamer.servicerefdata.dto.FacilityDto;
+import com.digitalsystemdreamer.servicerefdata.dto.MembershipDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -11,19 +12,18 @@ import java.util.concurrent.CompletableFuture;
 
 @Component
 @Slf4j
-public class FacilityProducer {
+public class MembershipProducer {
     @Autowired
-    private KafkaTemplate<Integer, FacilityDto> kafkaTemplate;
+    private KafkaTemplate<Integer, MembershipDto> kafkaTemplate;
 
-    public void sendMessage(FacilityDto facilityDto) {
-        CompletableFuture<SendResult<Integer, FacilityDto>> future = kafkaTemplate.send("digitalsystemdreamer.refdata.facility", facilityDto.getFacilityId(), facilityDto);
+    public void sendMessage(MembershipDto membershipDto) {
+        CompletableFuture<SendResult<Integer, MembershipDto>> future = kafkaTemplate.send("digitalsystemdreamer.refdata.membership", membershipDto.getMembershipId(), membershipDto);
         future.whenComplete((result, ex) -> {
             if (ex == null) {
-                log.info("Message successfully sent {}", facilityDto.getFacilityId());
+                log.info("Message successfully sent {}", membershipDto.getMembershipId());
             } else {
                 log.error("DLQ setup for FacilityDto");
                 log.error("Message sending failed", ex);
-                ex.printStackTrace();
             }
         });
     }

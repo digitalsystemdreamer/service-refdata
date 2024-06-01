@@ -34,16 +34,16 @@ public class FacilityController {
 
     @PostMapping("/facilities")
     public EntityModel<FacilityDto> saveFacility(@RequestBody FacilityDto facilityDto) {
-        Facility facility = facilityService.saveFacility(facilityDto);
-        log.info("Facility Created with ID: {}", facility.getFacilityId());
-        return assembler.toEntityModel(facility);
+        FacilityDto facilityDto1 = facilityService.saveFacility(facilityDto);
+        log.info("Facility Created with ID: {}", facilityDto1.getFacilityId());
+        return assembler.toEntityModel(facilityDto1);
     }
 
     @PutMapping("/facilities/{id}")
     public EntityModel<FacilityDto> updateFacility(@PathVariable Integer id, @RequestBody FacilityDto facilityDto) {
-        Facility facility = facilityService.updateFacility(id, facilityDto);
+        FacilityDto facilityDto1 = facilityService.updateFacility(id, facilityDto);
         log.info("Facility Updated with ID: {}", id);
-        return assembler.toEntityModel(facility);
+        return assembler.toEntityModel(facilityDto1);
     }
 
     @GetMapping("/facilities/{id}")

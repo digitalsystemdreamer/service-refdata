@@ -1,5 +1,6 @@
 package com.digitalsystemdreamer.servicerefdata.service;
 
+import com.digitalsystemdreamer.servicerefdata.assembler.Assembler;
 import com.digitalsystemdreamer.servicerefdata.dao.BillingRepo;
 import com.digitalsystemdreamer.servicerefdata.dao.FacilityRepo;
 import com.digitalsystemdreamer.servicerefdata.dto.FacilityDto;
@@ -9,6 +10,7 @@ import com.digitalsystemdreamer.servicerefdata.producer.FacilityProducer;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,36 +29,40 @@ public class FacilityService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private Assembler assembler;
+
     public List<Facility> getAllFacilities() {
         return facilityRepo.findAll();
     }
 
-    public Facility saveFacility(final FacilityDto facilityDto) {
-        Facility facility = modelMapper.map(facilityDto, Facility.class);
+    public FacilityDto saveFacility(final FacilityDto facilityDto) {
+        Facility toBeSaved = modelMapper.map(facilityDto, Facility.class);
         Optional.of(facilityDto.getFacilityBillings()).ifPresent(billingDtos -> billingDtos.forEach(billingDto -> {
             Billing billing = billingRepo.findById(billingDto.getBillingId()).orElseThrow(RuntimeException:: new);
-            facility.addBilling(billing, billingDto.getBillingRate());
+            toBeSaved.addBilling(billing, billingDto.getBillingRate());
         }));
-        Facility saved = facilityRepo.save(facility);
-        facilityProducer.sendMessage("{\"name\" : \""+facility.getName()+"\",\"description\" : \""+facility.getDescription()+"\"}");
-        return saved;
+        Facility saved = facilityRepo.save(toBeSaved);
+        FacilityDto savedFacilityDto = assembler.toDto(saved);
+        facilityProducer.sendMessage(savedFacilityDto);
+        return savedFacilityDto;
     }
 
-    public Facility updateFacility(Integer id, FacilityDto facilityDto) {
-        Facility saved = null;
+    public FacilityDto updateFacility(Integer id, FacilityDto facilityDto) {
         if (facilityRepo.existsById(id)) {
-            Facility facility = modelMapper.map(facilityDto, Facility.class);
-            facility.setFacilityId(id);
+            Facility toBeSaved = modelMapper.map(facilityDto, Facility.class);
+            toBeSaved.setFacilityId(id);
             Optional.of(facilityDto.getFacilityBillings()).ifPresent(billingDtos -> billingDtos.forEach(billingDto -> {
                 Billing billing = billingRepo.findById(billingDto.getBillingId()).orElseThrow(RuntimeException:: new);
-                facility.addBilling(billing, billingDto.getBillingRate());
+                toBeSaved.addBilling(billing, billingDto.getBillingRate());
             }));
-            saved = facilityRepo.save(facility);
-            facilityProducer.sendMessage("{\"name\" : \""+saved.getName()+"\",\"description\" : \""+saved.getDescription()+"\"}");
+            Facility saved = facilityRepo.save(toBeSaved);
+            FacilityDto savedFacilityDto = assembler.toDto(saved);
+            facilityProducer.sendMessage(savedFacilityDto);
+            return savedFacilityDto;
         } else {
             throw new EntityNotFoundException();
         }
-        return saved;
     }
 
     public Facility getFacility(Integer id) {

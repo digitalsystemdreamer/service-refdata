@@ -29,14 +29,14 @@ public class MembershipController {
 
     @PostMapping("/memberships")
     public EntityModel<MembershipDto> saveMembership(@RequestBody MembershipDto membershipDto) {
-        Membership membership = membershipService.saveMembership(membershipDto);
-        log.info("Membership Created with ID: {}", membership.getMembershipId());
-        return assembler.toEntityModel(membership);
+        MembershipDto membershipDto1 = membershipService.saveMembership(membershipDto);
+        log.info("Membership Created with ID: {}", membershipDto1.getMembershipId());
+        return assembler.toEntityModel(membershipDto1);
     }
 
     @GetMapping("/memberships/{id}")
     public EntityModel<MembershipDto> getMembership(@PathVariable Integer id) {
-        Membership membership = membershipService.getMembership(id);
-        return assembler.toEntityModel(membership);
+        MembershipDto membershipDto = membershipService.getMembership(id);
+        return assembler.toEntityModel(membershipDto);
     }
 }
