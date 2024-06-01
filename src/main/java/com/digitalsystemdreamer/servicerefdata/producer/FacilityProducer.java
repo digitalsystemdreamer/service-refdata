@@ -16,7 +16,7 @@ public class FacilityProducer {
     private KafkaTemplate<Integer, FacilityDto> kafkaTemplate;
 
     public void sendMessage(FacilityDto facilityDto) {
-        CompletableFuture<SendResult<Integer, FacilityDto>> future = kafkaTemplate.send("digitalsystemdreamer.refdata.facility", facilityDto.getFacilityId(), facilityDto);
+        CompletableFuture<SendResult<Integer, FacilityDto>> future = kafkaTemplate.send("topic-facility", facilityDto.getFacilityId(), facilityDto);
         future.whenComplete((result, ex) -> {
             if (ex == null) {
                 log.info("Message successfully sent {}", facilityDto.getFacilityId());

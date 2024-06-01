@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MembershipConsumer {
 
-    @KafkaListener(topics = "digitalsystemdreamer.refdata.membership",
+    @KafkaListener(topics = "topic-membership",
             groupId = "membership-cg",
             containerFactory ="membershipKafkaListenerContainerFactory")
     public void listenMembershipEvents(@Payload MembershipDto message) {

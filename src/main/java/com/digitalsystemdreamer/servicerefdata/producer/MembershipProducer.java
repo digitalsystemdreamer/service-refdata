@@ -17,7 +17,7 @@ public class MembershipProducer {
     private KafkaTemplate<Integer, MembershipDto> kafkaTemplate;
 
     public void sendMessage(MembershipDto membershipDto) {
-        CompletableFuture<SendResult<Integer, MembershipDto>> future = kafkaTemplate.send("digitalsystemdreamer.refdata.membership", membershipDto.getMembershipId(), membershipDto);
+        CompletableFuture<SendResult<Integer, MembershipDto>> future = kafkaTemplate.send("topic-membership", membershipDto.getMembershipId(), membershipDto);
         future.whenComplete((result, ex) -> {
             if (ex == null) {
                 log.info("Message successfully sent {}", membershipDto.getMembershipId());

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FacilityConsumer {
 
-    @KafkaListener(topics = "digitalsystemdreamer.refdata.facility",
+    @KafkaListener(topics = "topic-facility",
             groupId = "facility-cg",
             containerFactory = "facilityKafkaListenerContainerFactory")
     public void listenFacilityEvents(@Payload FacilityDto message) {
