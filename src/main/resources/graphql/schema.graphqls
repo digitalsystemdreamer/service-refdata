@@ -1,8 +1,8 @@
 type Query {
-    facilityById(id: ID): Facility
+    facilityById(id: ID): FacilityDto
 }
 
-type Facility {
+type FacilityDto {
     id: ID
     name: String
     description: String

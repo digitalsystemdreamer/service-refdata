@@ -1,14 +1,13 @@
 package com.digitalsystemdreamer.servicerefdata.assembler;
 
-import com.digitalsystemdreamer.servicerefdata.api.v1.FacilityController;
-import com.digitalsystemdreamer.servicerefdata.api.v1.MembershipController;
+import com.digitalsystemdreamer.servicerefdata.api.v2.FacilityControllerV2;
+import com.digitalsystemdreamer.servicerefdata.api.v2.MembershipControllerV2;
 import com.digitalsystemdreamer.servicerefdata.dto.BillingDto;
 import com.digitalsystemdreamer.servicerefdata.dto.FacilityDto;
 import com.digitalsystemdreamer.servicerefdata.dto.MembershipDto;
 import com.digitalsystemdreamer.servicerefdata.model.Billing;
 import com.digitalsystemdreamer.servicerefdata.model.Facility;
 import com.digitalsystemdreamer.servicerefdata.model.Membership;
-import com.digitalsystemdreamer.servicerefdata.model.MembershipFacilityMap;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -38,13 +37,13 @@ public class Assembler {
 
     public EntityModel<MembershipDto> toEntityModel(MembershipDto membershipDto) {
         return EntityModel.of(membershipDto,
-                linkTo(methodOn(MembershipController.class).getMembership(membershipDto.getMembershipId())).withSelfRel(),
-                linkTo(methodOn(MembershipController.class).getAllMemberships()).withRel("memberships"));
+                linkTo(methodOn(MembershipControllerV2.class).getMembership(membershipDto.getMembershipId())).withSelfRel(),
+                linkTo(methodOn(MembershipControllerV2.class).getAllMemberships()).withRel("memberships"));
     }
 
     public CollectionModel<EntityModel<MembershipDto>> toEntityModelList(List<Membership> memberships) {
         List<EntityModel<MembershipDto>> membershipDtos = memberships.stream().map((membership) -> toEntityModel(toDto(membership))).toList();
-        return CollectionModel.of(membershipDtos, linkTo(methodOn(MembershipController.class).getAllMemberships()).withSelfRel());
+        return CollectionModel.of(membershipDtos, linkTo(methodOn(MembershipControllerV2.class).getAllMemberships()).withSelfRel());
     }
 
     public Facility toEntity(FacilityDto facilityDto){
@@ -66,14 +65,14 @@ public class Assembler {
         }));
         facilityDto.setFacilityBillings(facilityBillings);
         return EntityModel.of(facilityDto,
-                linkTo(methodOn(FacilityController.class).getFacility(facilityDto.getFacilityId())).withSelfRel(),
-                linkTo(methodOn(FacilityController.class).getAllFacilities()).withRel("facilities"));
+                linkTo(methodOn(FacilityControllerV2.class).getFacility(facilityDto.getFacilityId())).withSelfRel(),
+                linkTo(methodOn(FacilityControllerV2.class).getAllFacilities()).withRel("facilities"));
     }
 
     public EntityModel<FacilityDto> toEntityModel(FacilityDto facilityDto){
         return EntityModel.of(facilityDto,
-                linkTo(methodOn(FacilityController.class).getFacility(facilityDto.getFacilityId())).withSelfRel(),
-                linkTo(methodOn(FacilityController.class).getAllFacilities()).withRel("facilities"));
+                linkTo(methodOn(FacilityControllerV2.class).getFacility(facilityDto.getFacilityId())).withSelfRel(),
+                linkTo(methodOn(FacilityControllerV2.class).getAllFacilities()).withRel("facilities"));
     }
 
     public FacilityDto toDto(Facility facility){
@@ -90,7 +89,7 @@ public class Assembler {
 
     public CollectionModel<EntityModel<FacilityDto>> toEntityModelFacilityList(List<Facility> facilities) {
         List<EntityModel<FacilityDto>> faEntityModels = facilities.stream().map(this::toEntityModel).toList();
-        return CollectionModel.of(faEntityModels, linkTo(methodOn(FacilityController.class).getAllFacilities()).withSelfRel());
+        return CollectionModel.of(faEntityModels, linkTo(methodOn(FacilityControllerV2.class).getAllFacilities()).withSelfRel());
     }
 
 }

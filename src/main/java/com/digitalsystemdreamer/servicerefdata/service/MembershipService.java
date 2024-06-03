@@ -33,8 +33,8 @@ public class MembershipService {
     @Autowired
     MembershipProducer membershipProducer;
 
-    public List<Membership> getAllMemberships() {
-        return membershipRepo.findAll();
+    public List<MembershipDto> getAllMemberships() {
+        return membershipRepo.findAll().stream().map(membership -> assembler.toDto(membership)).toList();
     }
 
     public MembershipDto saveMembership(MembershipDto membershipDto) {

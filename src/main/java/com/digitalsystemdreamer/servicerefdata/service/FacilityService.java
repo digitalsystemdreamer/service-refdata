@@ -10,7 +10,6 @@ import com.digitalsystemdreamer.servicerefdata.producer.FacilityProducer;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,8 +31,8 @@ public class FacilityService {
     @Autowired
     private Assembler assembler;
 
-    public List<Facility> getAllFacilities() {
-        return facilityRepo.findAll();
+    public List<FacilityDto> getAllFacilities() {
+        return facilityRepo.findAll().stream().map(facility -> assembler.toDto(facility)).toList();
     }
 
     public FacilityDto saveFacility(final FacilityDto facilityDto) {
@@ -65,7 +64,7 @@ public class FacilityService {
         }
     }
 
-    public Facility getFacility(Integer id) {
-        return facilityRepo.findById(id).orElseThrow(EntityNotFoundException::new);
+    public FacilityDto getFacility(Integer id) {
+        return assembler.toDto(facilityRepo.findById(id).orElseThrow(EntityNotFoundException::new));
     }
 }

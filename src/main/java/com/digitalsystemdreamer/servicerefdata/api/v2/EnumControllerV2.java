@@ -1,8 +1,7 @@
-package com.digitalsystemdreamer.servicerefdata.api.v1;
+package com.digitalsystemdreamer.servicerefdata.api.v2;
 
 import com.digitalsystemdreamer.servicerefdata.assembler.Assembler;
 import com.digitalsystemdreamer.servicerefdata.dto.BillingDto;
-import com.digitalsystemdreamer.servicerefdata.dto.EnumType;
 import com.digitalsystemdreamer.servicerefdata.dto.PackageDto;
 import com.digitalsystemdreamer.servicerefdata.service.EnumService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +10,6 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +17,9 @@ import java.util.List;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-@RestController
-@RequestMapping("/api/v1/enums/")
+@RequestMapping("/api/v2/enums/")
 @Slf4j
-public class EnumController {
+public class EnumControllerV2 {
 
     @Autowired
     private EnumService enumService;
@@ -30,9 +27,16 @@ public class EnumController {
     private Assembler assembler;
 
     @GetMapping
-    public List<List<? extends EnumType>> getAllEnums() {
-        List<BillingDto> allBillingEnums = enumService.getAllBillingEnums();
-        List<PackageDto> allPackageEnums = enumService.getAllPackageEnums();
-        return List.of(allBillingEnums, allPackageEnums);
+    public CollectionModel<EntityModel<BillingDto>> getAllEnums() {
+        List<EntityModel<BillingDto>> allBillingEnums = enumService.getAllBillingEnums().stream()
+        .map(EntityModel::of)
+                .toList();
+        List<EntityModel<PackageDto>> allPackageEnums = enumService.getAllPackageEnums().stream()
+                .map(EntityModel::of)
+                .toList();
+        List finalList = new ArrayList<>();
+        finalList.add(allBillingEnums);
+        finalList.add(allPackageEnums);
+        return CollectionModel.of(finalList, linkTo(methodOn(EnumControllerV2.class).getAllEnums()).withSelfRel());
     }
 }
