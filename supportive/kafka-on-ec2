@@ -1,0 +1,45 @@
+spot instance with 0.01$ per hour (t2.small)
+minimum memory - 2 GiB
+
+------------------------------------------------------
+sudo yum install docker
+sudo systemctl enable docker.service
+sudo systemctl start docker.service
+sudo curl -SL https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
+----------------------------------------
+version: '2'
+
+services:
+  zookeeper:
+    image: 'docker.io/bitnami/zookeeper:3-debian-10'
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - ZOO_SERVER_ID=1
+      - ZOO_SERVERS=0.0.0.0:2181:2181
+  kafka:
+    image: 'docker.io/bitnami/kafka:2-debian-10'
+    ports:
+      - '9092:9092'
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_NUM_PARTITIONS=1
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_DEFAULT_REPLICATION_FACTOR=1
+      - KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_CFG_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=EXTERNAL://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=EXTERNAL://ec2-13-127-131-20.ap-south-1.compute.amazonaws.com:9092
+      - KAFKA_INTER_BROKER_LISTENER_NAME=EXTERNAL
+    depends_on:
+      - zookeeper
+----------------------------------------------
+
+sudo docker-compose up

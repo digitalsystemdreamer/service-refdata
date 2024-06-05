@@ -1,0 +1,6 @@
+version: "3.5"
+services:
+  servicerefdata:
+    image: servicerefdata:latest
+    environment:
+      - "SPRING_PROFILES_ACTIVE=cloud"

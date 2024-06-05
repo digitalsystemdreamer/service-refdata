@@ -1,10 +1,12 @@
-INSERT INTO billing (billing_id, name) VALUES (1, 'Hourly');
-INSERT INTO billing (billing_id, name) VALUES (2, 'Daily');
-INSERT INTO billing (billing_id, name) VALUES (3, 'Weekly');
-INSERT INTO billing (billing_id, name) VALUES (4, 'Monthly');
-INSERT INTO billing (billing_id, name) VALUES (5, 'Half Yearly');
-INSERT INTO billing (billing_id, name) VALUES (6, 'Yearly');
-INSERT INTO package (package_id, package_name) VALUES (1, 'Monthly');
-INSERT INTO package (package_id, package_name) VALUES (2, 'Quarterly');
-INSERT INTO package (package_id, package_name) VALUES (3, 'Half Yearly');
-INSERT INTO package (package_id, package_name) VALUES (4, 'Annually');
+CREATE TABLE IF NOT EXISTS `billing` (
+  `billing_id` int NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`billing_id`)
+);
+MERGE INTO `billing` VALUES (1,'Hourly'),(2,'Daily'),(3,'Weekly'),(4,'Monthly'),(5,'Half Yearly'),(6,'Yearly');
+CREATE TABLE IF NOT EXISTS `package` (
+  `package_id` int NOT NULL,
+  `package_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`package_id`)
+);
+MERGE INTO `package` VALUES (1,'Monthly'),(2,'Quarterly'),(3,'Half Yearly'),(4,'Annually');
